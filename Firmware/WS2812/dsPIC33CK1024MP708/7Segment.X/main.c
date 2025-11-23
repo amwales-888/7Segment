@@ -22,6 +22,7 @@
 #include "mcc_generated_files/system/pins.h"
 #include "mcc_generated_files/spi_host/spi1.h"
 #include "pack.h"
+#include "mcc_generated_files/timer/delay.h"
 
 /*
     Main application
@@ -171,6 +172,116 @@ void MY_DMA_Initialize(void) {
 }
 
 
+
+void SegmentsOut(uint8_t *value, uint16_t count, 
+        uint8_t R, uint8_t G, uint8_t B) {
+
+    packDataStart();    
+        
+    for (uint16_t i=0; i<count; i++) {
+        
+        switch (value[i]) {
+            case 0:
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                break;
+            case 1:
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                break;
+            case 2:
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                break;
+            case 3:
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                break;
+            case 4:
+                packRGB(0x00, 0x00, 0x00);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);   
+                packRGB(0x00, 0x00, 0x00);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                break;
+            case 5:
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                break;
+            case 6:
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                break;
+            case 7:
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                packRGB(0x00, 0x00, 0x00);
+                break;
+            case 8:            
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                break;
+            case 9:            
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                packRGB(0x00, 0x00, 0x00);   
+                packRGB(R, G, B);   
+                packRGB(R, G, B);   
+                break;
+        }
+    }
+
+    packDataEnd();
+        
+    queueSendBits();
+}
+
+
+static uint8_t segmentValues[] = { 0 };
+
 int main(void)
 {
     SYSTEM_Initialize();
@@ -180,23 +291,15 @@ int main(void)
     MY_SPI1_Initialize();    
     MY_DMA_Initialize();
 
-
-    packDataStart();    
-    packRGB(0, 0, 0xFF);
-    packRGB(0, 0, 0xFF);
-    packRGB(0, 0xFF, 0);
-    packRGB(0, 0xFF, 0);
-    packRGB(0xFF, 0, 0);
-    packRGB(0xFF, 0, 0);    
-    packRGB(0xff, 0xff, 0xff);
-    packDataEnd();
-        
-    queueSendBits();
     
     while(1)
     {
-//        if (!queueBusy()) {            
-//            queueSendBits();
-//        }        
+        for (uint16_t i=0; i<10; i++) {
+        
+            segmentValues[0] = i;
+            
+            SegmentsOut(segmentValues, 1, 0xff, 0, 0 );
+            DELAY_milliseconds(250);
+        }        
     }
 }

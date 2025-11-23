@@ -2,7 +2,7 @@
 
 manifest_file_version: 1.0.0
 project: 7Segment
-creation_date: 2025-11-22T14:32:16.124Z[Europe/London]
+creation_date: 2025-11-23T22:51:02.763Z[Europe/London]
 operating_system: Windows 10
 mcc_mode: IDE
 mcc_mode_version: v6.25
@@ -18,6 +18,7 @@ device_library: {library_class: com.microchip.mcc.melody.Library, name: Melody, 
 packs: {name: N/A, version: N/A}
 modules:
 - {name: '@mchp-mcc/clock-16bit-driver', type: MELODY, version: 1.2.1}
+- {name: '@mchp-mcc/delay-blocking-driver', type: MELODY, version: 3.2.0}
 - {name: '@mchp-mcc/dma-16bit-driver', type: MELODY, version: 1.0.9}
 - {name: '@mchp-mcc/dmt-16bit-driver', type: MELODY, version: 1.0.7}
 - {name: '@mchp-mcc/dspic33-configuration-bits', type: MELODY, version: 1.2.4}
