@@ -20,16 +20,29 @@
 */
 #include "mcc_generated_files/system/system.h"
 #include "mcc_generated_files/system/pins.h"
-#include "mcc_generated_files/spi_host/spi1.h"
 #include "pack.h"
 #include "mcc_generated_files/timer/delay.h"
+
+#include <stdint.h>
+#include <stdbool.h>
 
 /*
     Main application
 */
 
-void MY_SPI1_Initialize (void)
+
+void SPI1_Initialize (void)
 {
+    
+    // Configure Peripheral Pin Select for SPI
+        
+    __builtin_write_RPCON(0x0000); // unlock PPS
+
+    RPOR1bits.RP34R = 0x0005U;  //RB2->SPI1:SDO1;
+
+     __builtin_write_RPCON(0x0800); // lock PPS    
+    
+    
     // Disable SPI1 so it can be configured
     SPI1CON1Lbits.SPIEN = 0x0U;    
 
@@ -162,7 +175,7 @@ bool queueSendBits(void) {
 }
 
 
-void MY_DMA_Initialize(void) {
+void DMA_Initialize(void) {
 
     DMACONbits.DMAEN=1;  // Enable DMA
     DMACONbits.PRSSEL=1; // 1 => Round robin scheme
@@ -296,8 +309,8 @@ int main(void)
     
     LED0_SetHigh();
     
-    MY_SPI1_Initialize();    
-    MY_DMA_Initialize();
+    SPI1_Initialize();    
+    DMA_Initialize();
 
     
     while(1)

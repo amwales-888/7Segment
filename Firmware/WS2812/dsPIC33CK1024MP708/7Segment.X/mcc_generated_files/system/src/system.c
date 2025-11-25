@@ -34,9 +34,7 @@
 #include "../system_types.h"
 #include "../clock.h"
 #include "../pins.h"
-#include "../../dma/dma.h"
 #include "../dmt.h"
-#include "../../spi_host/spi1.h"
 #include "../interrupt.h"
 
 
@@ -44,9 +42,7 @@ void SYSTEM_Initialize(void)
 {
     CLOCK_Initialize();
     PINS_Initialize();
-    DMA_Initialize();
     DMT_Initialize();
-    SPI1_Initialize();
     INTERRUPT_GlobalEnable();
     INTERRUPT_Initialize();
 }

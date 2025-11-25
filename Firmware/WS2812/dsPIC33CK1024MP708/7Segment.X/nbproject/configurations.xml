@@ -7,14 +7,6 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
-        <logicalFolder name="dma" displayName="dma" projectFiles="true">
-          <itemPath>mcc_generated_files/dma/dma.h</itemPath>
-          <itemPath>mcc_generated_files/dma/dma_types.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="spi_host" displayName="spi_host" projectFiles="true">
-          <itemPath>mcc_generated_files/spi_host/spi_host_interface.h</itemPath>
-          <itemPath>mcc_generated_files/spi_host/spi1.h</itemPath>
-        </logicalFolder>
         <logicalFolder name="system" displayName="system" projectFiles="true">
           <itemPath>mcc_generated_files/system/clock.h</itemPath>
           <itemPath>mcc_generated_files/system/watchdog.h</itemPath>
@@ -50,16 +42,6 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
-        <logicalFolder name="dma" displayName="dma" projectFiles="true">
-          <logicalFolder name="src" displayName="src" projectFiles="true">
-            <itemPath>mcc_generated_files/dma/src/dma.c</itemPath>
-          </logicalFolder>
-        </logicalFolder>
-        <logicalFolder name="spi_host" displayName="spi_host" projectFiles="true">
-          <logicalFolder name="src" displayName="src" projectFiles="true">
-            <itemPath>mcc_generated_files/spi_host/src/spi1.c</itemPath>
-          </logicalFolder>
-        </logicalFolder>
         <logicalFolder name="system" displayName="system" projectFiles="true">
           <logicalFolder name="src" displayName="src" projectFiles="true">
             <itemPath>mcc_generated_files/system/src/clock.c</itemPath>
