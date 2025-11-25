@@ -68,8 +68,7 @@ void MY_SPI1_Initialize (void)
     SPI1CON1Lbits.SPIEN = 1U;    
 }
 
-#define BITPATTERN(x) ((x) == 0 ? 0x00008000UL : 0x0000C000UL)
-
+#define BITPATTERN(x) ((x) == 0 ? 0x00000004UL : 0x00000006UL)
 
 void packRGB(uint8_t R, uint8_t G, uint8_t B) {
         
@@ -109,7 +108,7 @@ bool queueBusy(void) {
 bool queueSendBits(void) {
 
     static uint8_t dummy;         // Put the reasult of the SPI read here
-    size_t count = packDataLen(); // Get number of bytes in the packed buffer
+    size_t count = packDataGetLen(); // Get number of bytes in the packed buffer
         
     // Start the DMA Transfer
 
@@ -132,7 +131,7 @@ bool queueSendBits(void) {
      */    
     DMASRC1 = (uint16_t)&SPI1BUFL;
     DMADST1 = (uint16_t)&dummy;
-    DMACNT1 = count;
+    DMACNT1 = 1;
     
     DMACH1bits.CHEN  = 1; // Enable the channel
     DMACH1bits.CHREQ = 1; // Force start
@@ -152,7 +151,7 @@ bool queueSendBits(void) {
     
     /* Setup source, destination and count 
      */    
-    DMASRC0 = (uint16_t)packDataBuffer();
+    DMASRC0 = (uint16_t)packDataGetBuffer();
     DMADST0 = (uint16_t)&SPI1BUFL;
     DMACNT0 = count;
 
@@ -172,11 +171,20 @@ void MY_DMA_Initialize(void) {
 }
 
 
+#define LEDSPERSEGMENT 7
+#define NUMSEGMENTS    4
+#define NUMLEDS        ((LEDSPERSEGMENT)*(NUMSEGMENTS))
+#define BITSPERLED     24
+#define BYTESREQUIRED  PACKEDBITSIZE((NUMLEDS)*(BITSPERLED))
+
+uint8_t dataBuf[BYTESREQUIRED];
+size_t dataSize = BYTESREQUIRED;
+
 
 void SegmentsOut(uint8_t *value, uint16_t count, 
         uint8_t R, uint8_t G, uint8_t B) {
 
-    packDataStart();    
+    packDataStart(&dataBuf[0], dataSize);    
         
     for (uint16_t i=0; i<count; i++) {
         
@@ -280,7 +288,7 @@ void SegmentsOut(uint8_t *value, uint16_t count,
 }
 
 
-static uint8_t segmentValues[] = { 0 };
+static uint8_t segmentValues[] = { 0, 0, 0, 0 };
 
 int main(void)
 {
@@ -296,10 +304,16 @@ int main(void)
     {
         for (uint16_t i=0; i<10; i++) {
         
+            /* Populate ALL 4 7Segment displays 
+             */            
             segmentValues[0] = i;
+            segmentValues[1] = i;
+            segmentValues[2] = i;
+            segmentValues[3] = i;
+
+            SegmentsOut(segmentValues, 4, 0xff, 0, 0 );
             
-            SegmentsOut(segmentValues, 1, 0xff, 0, 0 );
-            DELAY_milliseconds(250);
+            DELAY_milliseconds(1000);
         }        
     }
 }
