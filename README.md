@@ -8,14 +8,10 @@ The microcontroller I am using is a dsPIC33CK and it is interfaced to the WS2812
 <table>
   <tr>
     <td> <img src="/Images/7segment-pcb-back.jpg"></td>
-  </tr>
-  <tr>
     <td> <img src="/Images/7segment-pcb-front.jpg"></td>
   </tr>
   <tr>
     <td> <img src="/Images/bambu-3d.JPG"></td>
-  </tr>
-  <tr>
     <td> <img src="/Images/solidworks.JPG"></td>
   </tr>
 </table>
