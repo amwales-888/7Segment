@@ -7,6 +7,10 @@ The microcontroller I am using is a dsPIC33CK and it is interfaced to the WS2812
 
 <table>
   <tr>
+    <td> <img src="/Images/PXL_20251126_121712593.jpg"></td>
+    <td> </td>
+  </tr>
+  <tr>
     <td> <img src="/Images/7segment-pcb-back.jpg"></td>
     <td> <img src="/Images/7segment-pcb-front.jpg"></td>
   </tr>
