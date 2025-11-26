@@ -63,6 +63,11 @@ void packDataBits(uint32_t bitPattern) {
     }
 }
 
+ 
+
+
+
+
 void packDataEnd(void) {
     
     // Flush any remaining bits 

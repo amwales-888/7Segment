@@ -18,6 +18,53 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
+
+/* The DMA->SPI was inspired by the work done by Broadwell Consulting and 
+ * the youtube video found at https://www.youtube.com/watch?v=_HJepzYc6_0
+ * the w2812 code was released under an MIT licensed and inititally used as
+ * a reference to debug the DMA->SPI code in this file.
+ * 
+ * The dsPIC33CK1024MP708 used here requires that a second DMA channel used
+ * to read from the SPI, failing to do this causes the SPI to stall.
+ * I am using a 300ns SPI period and 3 bits for each of bit on the WS2812.
+ * 
+ * The peripheral clock is running at 100Mhz and a BRG value of 16 is used to 
+ * achive this.
+ * 
+ *  |SPI  |SPI  |SPI  |
+ *  |Bit  |Bit  |Bit  |
+ *  |300ns|300ns|300ns|
+ * 
+ *  +-----+
+ *  |     |              WS2812 0 Bit
+ *  |     +-----+-----+
+ * 
+ *  +-----+-----+
+ *  |           |        WS2812 1 Bit
+ *  |           +-----+
+ *  
+ * These value fall within the specifications of the WS2812 datasheet I am using 
+ * found at https://github.com/amwales-888/7Segment/blob/main/Hardware/KiCad/Docs/ws2812B-C22461793.pdf
+ * 
+ *            Time in ns
+ *            Min Typ Max
+ *  0 High    200 300 400
+ *  1 High    550 600 1200
+ *  0 Low     550 600 1200
+ *  1 Low     200 300 400
+ * 
+ *  Cycle     900 -   -
+ * 
+ * Our cycle time is 3x300 ns
+ * and the other transitions we use are the typical spec value of 300 and 600
+ * 
+ * The bits are packed into a byte buffer, 5 WS2812 bits require 15 SPI Bits
+ * and 2 packed Bytes in the DMA buffer.
+ * 
+ * As of Nov 2025 I believe that the Serial Wombat code could make significant 
+ * RAM savings by changing it to use a 375ns period and using 3bit packing
+ */
+
 #include "mcc_generated_files/system/system.h"
 #include "mcc_generated_files/system/pins.h"
 #include "pack.h"
@@ -29,7 +76,6 @@
 /*
     Main application
 */
-
 
 void SPI1_Initialize (void)
 {
@@ -62,7 +108,13 @@ void SPI1_Initialize (void)
 
     // Baud Rate Generator SPIBRGL divisor 1; 
     // Baud Rate = FP / ( 2 * (SPIxBRG + 1))
-    SPI1BRGL = 0x10U; // 340ns period
+    //
+    // CLOCK_PeripheralFrequencyGet() = 100000000
+    //
+    // 100000000 / (2 * (14+1)) = 3333333 Hz
+    // 1 / 3333333 = 0.0000003 s
+    // 300 ns
+    SPI1BRGL = 0x0EU; // 300ns period
             
     // FRMERREN disabled; BUSYEN disabled; SPITUREN disabled; SRMTEN disabled; SPIROVEN disabled; SPIRBEN disabled; SPITBEN enabled; SPITBFEN disabled; SPIRBFEN enabled
     // SPITBEN enables Interrupt Events via SPITBE bit, SPIx transmit buffer empty generates an interrupt event
