@@ -1,0 +1,167 @@
+/*
+ *  Copyright (c) 2025 Angelo Masci
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *  
+ */
+
+#include "mcc_generated_files/system/system.h"
+#include "mcc_generated_files/system/pins.h"
+#include "mcc_generated_files/timer/delay.h"
+#include "mcc_generated_files/system/clock.h"
+
+#include "pack.h"
+
+#include <stdint.h>
+#include <stdbool.h>
+
+static void DMAInitialize(void) {
+
+    DMACONbits.DMAEN=1;  // Enable DMA
+    DMACONbits.PRSSEL=1; // 1 => Round robin scheme
+    DMAL=0x1000;         // Lower DMA Bounds
+    DMAH=0xFFFF;         // Upper DMA Bounds
+}
+
+static void SPI1Initialize (void)
+{
+    
+    // Configure Peripheral Pin Select for SPI
+        
+    __builtin_write_RPCON(0x0000); // unlock PPS
+
+    RPOR1bits.RP34R = 0x0005U;  //RB2->SPI1:SDO1;
+
+     __builtin_write_RPCON(0x0800); // lock PPS    
+    
+    
+    // Disable SPI1 so it can be configured
+    SPI1CON1Lbits.SPIEN = 0x0U;    
+
+    // SPIEN disabled; DISSDO disabled; MCLKEN FOSC/2; CKP Idle:Low, Active:High; SSEN disabled; MSTEN Host; MODE16 disabled; SMP Middle; DISSCK disabled; SPIFE Frame Sync pulse precedes; CKE Idle to Active; MODE32 disabled; SPISIDL disabled; ENHBUF enabled; DISSDI disabled; 
+    SPI1CON1L = 0x21U;
+    
+    // AUDEN disabled; FRMEN disabled; AUDMOD I2S; FRMSYPW One clock wide; AUDMONO stereo; FRMCNT 0x0; MSSEN disabled; FRMPOL disabled; IGNROV disabled; SPISGNEXT not sign-extended; FRMSYNC disabled; URDTEN disabled; IGNTUR disabled; 
+    SPI1CON1H = 0x0U;
+    SPI1CON1Hbits.IGNROV = 0;
+
+    // WLENGTH disabled; 
+    SPI1CON2L = 0x0U;
+
+    // SPIROV disabled; FRMERR disabled; 
+    SPI1STATL = 0x0U;
+    SPI1STATH = 0x0U;
+
+    // Baud Rate Generator SPIBRGL divisor 1; 
+    // Baud Rate = FP / ( 2 * (SPIxBRG + 1))
+    //
+    // CLOCK_PeripheralFrequencyGet() = 100000000
+    //
+    // 100000000 / (2 * (14+1)) = 3333333 Hz
+    // 1 / 3333333 = 0.0000003 s
+    // 300 ns
+
+//#if  ( CLOCK_PeripheralFrequencyGet() != 100000000UL )
+//#error "Expect peripheral clock frequency was 100MHz, recalculate SPI1BRGL"
+//#endif    
+    
+    SPI1BRGL = 0x0EU; // 300ns period
+            
+    // FRMERREN disabled; BUSYEN disabled; SPITUREN disabled; SRMTEN disabled; SPIROVEN disabled; SPIRBEN disabled; SPITBEN enabled; SPITBFEN disabled; SPIRBFEN enabled
+    // SPITBEN enables Interrupt Events via SPITBE bit, SPIx transmit buffer empty generates an interrupt event
+    // SPIRBFEN enables Interrupt Events via SPIRBF bit, SPIx receive buffer full generates an interrupt event    
+    SPI1IMSKL = 0x9U;
+
+    // RXWIEN disabled; RXMSK disabled; TXWIEN disabled; TXMSK disabled
+    SPI1IMSKH = 0x0U;
+           
+    // SPIURDTL 0; 
+    SPI1URDTL = 0x0U;
+    // SPIURDTH 0; 
+    SPI1URDTH = 0x0U;
+
+    // Enable SPI1 so changes take affect
+    SPI1CON1Lbits.SPIEN = 1U;    
+}
+
+void DMA2SPIInitialize(void) {
+    
+    DMAInitialize();
+    SPI1Initialize();
+}
+
+bool DMA2SPIBusy(void) {
+        
+    return (DMACH0bits.CHEN != 0);
+}
+
+void DMA2SPIStart(uint8_t *buffer, size_t count) {
+
+    static uint8_t dummy;         // Put the reasult of the SPI read here
+        
+    // Start the DMA Transfer
+
+    /* Channel 1 reads from the SPI when there is data available to be read 
+     * NOTE - Failing to do so will cause DMA to stall waiting for SPI read 
+     * buffer to be emptied.
+     */
+    
+    DMACH1bits.CHEN = 0; // Disable the channel so we can configure it
+            
+    DMACH1bits.SIZE    = 1; // 8bit mode
+    DMACH1bits.RELOAD  = 1; // Reload
+    DMACH1bits.TRMODE  = 3; // Continuous
+    DMACH1bits.SAMODE  = 0; // Peripheral    
+    DMACH1bits.DAMODE  = 0; // Destination Address remains unchanged
+    DMAINT1bits.CHSEL  = 2; // SPI1 RX
+    DMAINT1bits.DONEIF = 0; // Clear the interrupt completion flag
+            
+    /* Setup source, destination and count 
+     */    
+    DMASRC1 = (uint16_t)&SPI1BUFL;
+    DMADST1 = (uint16_t)&dummy;
+    DMACNT1 = 1;
+    
+    DMACH1bits.CHEN  = 1; // Enable the channel
+    DMACH1bits.CHREQ = 1; // Force start
+
+    /* Channel 0 writes to the SPI when there is space available to write
+     */
+    
+    DMACH0bits.CHEN = 0; // Disable the channel so we can configure it
+            
+    DMACH0bits.SIZE    = 1; // 8bit mode
+    DMACH0bits.TRMODE  = 0; // One-shot
+    DMACH0bits.RELOAD  = 0; // Do not reload
+    DMACH0bits.SAMODE  = 1; // Destination Address Post-increment
+    DMACH0bits.DAMODE  = 0; // Peripheral                
+    DMAINT0bits.CHSEL  = 3; // SPI1 TX
+    DMAINT0bits.DONEIF = 0; // Clear the interrupt completion flag
+    
+    /* Setup source, destination and count 
+     */    
+//    DMASRC0 = (uint16_t)packDataGetBuffer();
+    DMASRC0 = (uint16_t)buffer;
+    DMADST0 = (uint16_t)&SPI1BUFL;
+    DMACNT0 = count;
+
+    DMACH0bits.CHEN  = 1; // Enable the channel
+    DMACH0bits.CHREQ = 1; // Force start
+}
+

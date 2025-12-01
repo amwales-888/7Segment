@@ -96,6 +96,159 @@
 
 /**
  * @ingroup  pinsdriver
+ * @brief    Sets the RA1 GPIO Pin which has a custom name of RTTC_CE to High
+ * @pre      The RA1 must be set as Output Pin             
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_CE_SetHigh()          (_LATA1 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RA1 GPIO Pin which has a custom name of RTTC_CE to Low
+ * @pre      The RA1 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_CE_SetLow()           (_LATA1 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Toggles the RA1 GPIO Pin which has a custom name of RTTC_CE
+ * @pre      The RA1 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_CE_Toggle()           (_LATA1 ^= 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Reads the value of the RA1 GPIO Pin which has a custom name of RTTC_CE
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_CE_GetValue()         _RA1
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RA1 GPIO Pin which has a custom name of RTTC_CE as Input
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_CE_SetDigitalInput()  (_TRISA1 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RA1 GPIO Pin which has a custom name of RTTC_CE as Output
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_CE_SetDigitalOutput() (_TRISA1 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RA2 GPIO Pin which has a custom name of RTTC_SCLK to High
+ * @pre      The RA2 must be set as Output Pin             
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_SCLK_SetHigh()          (_LATA2 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RA2 GPIO Pin which has a custom name of RTTC_SCLK to Low
+ * @pre      The RA2 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_SCLK_SetLow()           (_LATA2 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Toggles the RA2 GPIO Pin which has a custom name of RTTC_SCLK
+ * @pre      The RA2 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_SCLK_Toggle()           (_LATA2 ^= 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Reads the value of the RA2 GPIO Pin which has a custom name of RTTC_SCLK
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_SCLK_GetValue()         _RA2
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RA2 GPIO Pin which has a custom name of RTTC_SCLK as Input
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_SCLK_SetDigitalInput()  (_TRISA2 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RA2 GPIO Pin which has a custom name of RTTC_SCLK as Output
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_SCLK_SetDigitalOutput() (_TRISA2 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RA3 GPIO Pin which has a custom name of RTTC_IO to High
+ * @pre      The RA3 must be set as Output Pin             
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_IO_SetHigh()          (_LATA3 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RA3 GPIO Pin which has a custom name of RTTC_IO to Low
+ * @pre      The RA3 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_IO_SetLow()           (_LATA3 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Toggles the RA3 GPIO Pin which has a custom name of RTTC_IO
+ * @pre      The RA3 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_IO_Toggle()           (_LATA3 ^= 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Reads the value of the RA3 GPIO Pin which has a custom name of RTTC_IO
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_IO_GetValue()         _RA3
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RA3 GPIO Pin which has a custom name of RTTC_IO as Input
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_IO_SetDigitalInput()  (_TRISA3 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RA3 GPIO Pin which has a custom name of RTTC_IO as Output
+ * @param    none
+ * @return   none  
+ */
+#define RTTC_IO_SetDigitalOutput() (_TRISA3 = 0)
+
+/**
+ * @ingroup  pinsdriver
  * @brief    Initializes the PINS module
  * @param    none
  * @return   none  

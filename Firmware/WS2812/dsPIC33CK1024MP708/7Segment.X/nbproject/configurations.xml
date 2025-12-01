@@ -25,6 +25,10 @@
         </logicalFolder>
       </logicalFolder>
       <itemPath>pack.h</itemPath>
+      <itemPath>ws2812.h</itemPath>
+      <itemPath>segment.h</itemPath>
+      <itemPath>DMA2SPI.h</itemPath>
+      <itemPath>ds1302.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -64,6 +68,10 @@
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>pack.c</itemPath>
+      <itemPath>ds1302.c</itemPath>
+      <itemPath>ws2812.c</itemPath>
+      <itemPath>segment.c</itemPath>
+      <itemPath>DMA2SPI.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
