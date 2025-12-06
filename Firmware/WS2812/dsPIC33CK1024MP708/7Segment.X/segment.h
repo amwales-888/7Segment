@@ -24,15 +24,14 @@
 #ifndef SEGMENT_H
 #define	SEGMENT_H
 
+#define SEGMENTVALUEOFF 10
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-
 void segmentsOut(uint8_t *value, uint16_t count, 
         uint8_t R, uint8_t G, uint8_t B);
-
-
 
 #ifdef	__cplusplus
 }

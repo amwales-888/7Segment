@@ -39,11 +39,7 @@
 #define BUTTONGPIOID1 1
 #define BUTTONGPIOID2 2
 
-/*
- * 
- * 
- * 
-    Main application
+/*    Main application
 */
 
 static void buttonDebounce(void *data);
@@ -236,8 +232,8 @@ segmentUpdate(void *data) {
     
     if (segmentHourOff) {
         
-        segmentValues[0] = 10;
-        segmentValues[1] = 10;
+        segmentValues[0] = SEGMENTVALUEOFF;
+        segmentValues[1] = SEGMENTVALUEOFF;
 
     } else {
         
@@ -247,8 +243,8 @@ segmentUpdate(void *data) {
     
     if (segmentMinuteOff) {
         
-        segmentValues[2] = 10;
-        segmentValues[3] = 10;
+        segmentValues[2] = SEGMENTVALUEOFF;
+        segmentValues[3] = SEGMENTVALUEOFF;
 
     } else {
         

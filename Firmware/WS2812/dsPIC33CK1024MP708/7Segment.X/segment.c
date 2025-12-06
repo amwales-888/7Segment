@@ -27,6 +27,7 @@
 
 #include "pack.h"
 #include "ws2812.h"
+#include "segment.h"
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -138,7 +139,7 @@ void segmentsOut(uint8_t *value, uint16_t count,
                 ws2812RGBOut(R, G, B);   
                 ws2812RGBOut(R, G, B);   
                 break;
-            case 10:            
+            case SEGMENTVALUEOFF:            
                 ws2812RGBOut(0x00, 0x00, 0x00);   
                 ws2812RGBOut(0x00, 0x00, 0x00);   
                 ws2812RGBOut(0x00, 0x00, 0x00);   
