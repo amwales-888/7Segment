@@ -138,6 +138,15 @@ void segmentsOut(uint8_t *value, uint16_t count,
                 ws2812RGBOut(R, G, B);   
                 ws2812RGBOut(R, G, B);   
                 break;
+            case 10:            
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                ws2812RGBOut(0x00, 0x00, 0x00);   
+                break;
         }
     }
 

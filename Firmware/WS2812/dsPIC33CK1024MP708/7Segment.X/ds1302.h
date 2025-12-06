@@ -45,6 +45,9 @@ void ds1302ReadTime(struct dateTime_s *dt);
 void ds1302WriteRam(uint8_t addr, uint8_t val);
 uint8_t ds1302ReadRam(uint8_t addr);
 void ds1302ClearRam(void);
+uint8_t ds1302IsRunning(void);
+void ds1302Stop(void);
+void ds1302Start(void);
 
 #ifdef	__cplusplus
 }

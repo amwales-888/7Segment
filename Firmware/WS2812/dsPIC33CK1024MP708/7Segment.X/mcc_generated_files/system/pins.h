@@ -249,6 +249,159 @@
 
 /**
  * @ingroup  pinsdriver
+ * @brief    Sets the RB3 GPIO Pin which has a custom name of GPIO1 to High
+ * @pre      The RB3 must be set as Output Pin             
+ * @param    none
+ * @return   none  
+ */
+#define GPIO1_SetHigh()          (_LATB3 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RB3 GPIO Pin which has a custom name of GPIO1 to Low
+ * @pre      The RB3 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define GPIO1_SetLow()           (_LATB3 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Toggles the RB3 GPIO Pin which has a custom name of GPIO1
+ * @pre      The RB3 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define GPIO1_Toggle()           (_LATB3 ^= 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Reads the value of the RB3 GPIO Pin which has a custom name of GPIO1
+ * @param    none
+ * @return   none  
+ */
+#define GPIO1_GetValue()         _RB3
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RB3 GPIO Pin which has a custom name of GPIO1 as Input
+ * @param    none
+ * @return   none  
+ */
+#define GPIO1_SetDigitalInput()  (_TRISB3 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RB3 GPIO Pin which has a custom name of GPIO1 as Output
+ * @param    none
+ * @return   none  
+ */
+#define GPIO1_SetDigitalOutput() (_TRISB3 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RB4 GPIO Pin which has a custom name of GPIO2 to High
+ * @pre      The RB4 must be set as Output Pin             
+ * @param    none
+ * @return   none  
+ */
+#define GPIO2_SetHigh()          (_LATB4 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RB4 GPIO Pin which has a custom name of GPIO2 to Low
+ * @pre      The RB4 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define GPIO2_SetLow()           (_LATB4 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Toggles the RB4 GPIO Pin which has a custom name of GPIO2
+ * @pre      The RB4 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define GPIO2_Toggle()           (_LATB4 ^= 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Reads the value of the RB4 GPIO Pin which has a custom name of GPIO2
+ * @param    none
+ * @return   none  
+ */
+#define GPIO2_GetValue()         _RB4
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RB4 GPIO Pin which has a custom name of GPIO2 as Input
+ * @param    none
+ * @return   none  
+ */
+#define GPIO2_SetDigitalInput()  (_TRISB4 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RB4 GPIO Pin which has a custom name of GPIO2 as Output
+ * @param    none
+ * @return   none  
+ */
+#define GPIO2_SetDigitalOutput() (_TRISB4 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RB5 GPIO Pin which has a custom name of GPIO0 to High
+ * @pre      The RB5 must be set as Output Pin             
+ * @param    none
+ * @return   none  
+ */
+#define GPIO0_SetHigh()          (_LATB5 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Sets the RB5 GPIO Pin which has a custom name of GPIO0 to Low
+ * @pre      The RB5 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define GPIO0_SetLow()           (_LATB5 = 0)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Toggles the RB5 GPIO Pin which has a custom name of GPIO0
+ * @pre      The RB5 must be set as Output Pin
+ * @param    none
+ * @return   none  
+ */
+#define GPIO0_Toggle()           (_LATB5 ^= 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Reads the value of the RB5 GPIO Pin which has a custom name of GPIO0
+ * @param    none
+ * @return   none  
+ */
+#define GPIO0_GetValue()         _RB5
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RB5 GPIO Pin which has a custom name of GPIO0 as Input
+ * @param    none
+ * @return   none  
+ */
+#define GPIO0_SetDigitalInput()  (_TRISB5 = 1)
+
+/**
+ * @ingroup  pinsdriver
+ * @brief    Configures the RB5 GPIO Pin which has a custom name of GPIO0 as Output
+ * @param    none
+ * @return   none  
+ */
+#define GPIO0_SetDigitalOutput() (_TRISB5 = 0)
+
+/**
+ * @ingroup  pinsdriver
  * @brief    Initializes the PINS module
  * @param    none
  * @return   none  

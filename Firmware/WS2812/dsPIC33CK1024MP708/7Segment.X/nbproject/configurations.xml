@@ -22,6 +22,8 @@
         </logicalFolder>
         <logicalFolder name="timer" displayName="timer" projectFiles="true">
           <itemPath>mcc_generated_files/timer/delay.h</itemPath>
+          <itemPath>mcc_generated_files/timer/timer_interface.h</itemPath>
+          <itemPath>mcc_generated_files/timer/tmr1.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <itemPath>pack.h</itemPath>
@@ -29,6 +31,11 @@
       <itemPath>segment.h</itemPath>
       <itemPath>DMA2SPI.h</itemPath>
       <itemPath>ds1302.h</itemPath>
+      <itemPath>scheduler.h</itemPath>
+      <itemPath>process.h</itemPath>
+      <itemPath>queue.h</itemPath>
+      <itemPath>GPIO.h</itemPath>
+      <itemPath>button.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -63,6 +70,7 @@
         <logicalFolder name="timer" displayName="timer" projectFiles="true">
           <logicalFolder name="src" displayName="src" projectFiles="true">
             <itemPath>mcc_generated_files/timer/src/delay.c</itemPath>
+            <itemPath>mcc_generated_files/timer/src/tmr1.c</itemPath>
           </logicalFolder>
         </logicalFolder>
       </logicalFolder>
@@ -72,6 +80,10 @@
       <itemPath>ws2812.c</itemPath>
       <itemPath>segment.c</itemPath>
       <itemPath>DMA2SPI.c</itemPath>
+      <itemPath>scheduler.c</itemPath>
+      <itemPath>process.c</itemPath>
+      <itemPath>button.c</itemPath>
+      <itemPath>GPIO.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

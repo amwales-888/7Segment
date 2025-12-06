@@ -45,6 +45,10 @@
 #define DS1302_CLKBURST		0xbe
 #define DS1302_RAMBURST 	0xfe
 
+// DS1302 Clock Halt Register
+#define DS1302_REG_CH       0x80
+#define DS1302_CH_BITMASK   0x80
+
 #define RAMSIZE 			0x31	// Ram Size in bytes
 #define DS1302_RAMSTART		0xc0 	// First Address
 
@@ -229,4 +233,30 @@ void ds1302ClearRam(void) {
 	for(i=0; i< RAMSIZE; i++){
 		ds1302WriteRam(i,0x00);
 	}
+}
+
+
+
+
+uint8_t ds1302IsRunning(void) {
+    
+    return ((readByte(DS1302_REG_CH) & DS1302_CH_BITMASK) == 0);
+}
+
+void ds1302Stop(void) {
+    
+    uint8_t value = readByte(DS1302_REG_CH);
+    
+    value |= DS1302_CH_BITMASK;
+
+    writeByte(DS1302_REG_CH, value);
+}
+
+void ds1302Start(void) {
+    
+    uint8_t value = readByte(DS1302_REG_CH);
+    
+    value &= ~DS1302_CH_BITMASK;
+
+    writeByte(DS1302_REG_CH, value);
 }

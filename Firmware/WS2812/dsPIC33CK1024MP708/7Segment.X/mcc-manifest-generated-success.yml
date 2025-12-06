@@ -2,7 +2,7 @@
 
 manifest_file_version: 1.0.0
 project: 7Segment
-creation_date: 2025-11-27T17:30:59.622Z[Europe/London]
+creation_date: 2025-12-05T19:04:33.002Z[Europe/London]
 operating_system: Windows 10
 mcc_mode: IDE
 mcc_mode_version: v6.25
@@ -29,6 +29,8 @@ modules:
 - {name: '@mchp-mcc/pic24-dspic33-interrupt', type: MELODY, version: 1.4.2}
 - {name: '@mchp-mcc/pic24-dspic33-pin-manager', type: MELODY, version: 1.4.1}
 - {name: '@mchp-mcc/pic24-dspic33-reset', type: MELODY, version: 1.1.2}
+- {name: '@mchp-mcc/pic24-dspic33-tmr-class-upb', type: MELODY, version: 1.5.6}
 - {name: '@mchp-mcc/pic24-dspic33-wdt-upb-v1', type: MELODY, version: 1.2.2}
 - {name: '@mchp-mcc/pin-content-processor', type: MELODY, version: 3.11.0}
+- {name: '@mchp-mcc/timer', type: MELODY, version: 1.2.3}
 - {name: '@mchp-mcc/wdt-16bit-driver', type: MELODY, version: 1.0.9}
