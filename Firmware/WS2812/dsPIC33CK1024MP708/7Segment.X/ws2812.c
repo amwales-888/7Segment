@@ -36,32 +36,32 @@
 
 void ws2812RGBOut(uint8_t R, uint8_t G, uint8_t B) {
         
-    packDataBits(BITPATTERN(G & 0x01));
-    packDataBits(BITPATTERN(G & 0x02));
-    packDataBits(BITPATTERN(G & 0x04));
-    packDataBits(BITPATTERN(G & 0x08));
-    packDataBits(BITPATTERN(G & 0x10));
-    packDataBits(BITPATTERN(G & 0x20));
-    packDataBits(BITPATTERN(G & 0x40));
     packDataBits(BITPATTERN(G & 0x80));
+    packDataBits(BITPATTERN(G & 0x40));
+    packDataBits(BITPATTERN(G & 0x20));
+    packDataBits(BITPATTERN(G & 0x10));
+    packDataBits(BITPATTERN(G & 0x08));
+    packDataBits(BITPATTERN(G & 0x04));
+    packDataBits(BITPATTERN(G & 0x02));
+    packDataBits(BITPATTERN(G & 0x01));
 
-    packDataBits(BITPATTERN(R & 0x01));
-    packDataBits(BITPATTERN(R & 0x02));
-    packDataBits(BITPATTERN(R & 0x04));
-    packDataBits(BITPATTERN(R & 0x08));
-    packDataBits(BITPATTERN(R & 0x10));
-    packDataBits(BITPATTERN(R & 0x20));
-    packDataBits(BITPATTERN(R & 0x40));
     packDataBits(BITPATTERN(R & 0x80));
+    packDataBits(BITPATTERN(R & 0x40));
+    packDataBits(BITPATTERN(R & 0x20));
+    packDataBits(BITPATTERN(R & 0x10));
+    packDataBits(BITPATTERN(R & 0x08));
+    packDataBits(BITPATTERN(R & 0x04));
+    packDataBits(BITPATTERN(R & 0x02));
+    packDataBits(BITPATTERN(R & 0x01));
 
-    packDataBits(BITPATTERN(B & 0x01));
-    packDataBits(BITPATTERN(B & 0x02));
-    packDataBits(BITPATTERN(B & 0x04));
-    packDataBits(BITPATTERN(B & 0x08));
-    packDataBits(BITPATTERN(B & 0x10));
-    packDataBits(BITPATTERN(B & 0x20));
+    packDataBits(BITPATTERN(B & 0x80));
     packDataBits(BITPATTERN(B & 0x40));
-    packDataBits(BITPATTERN(B & 0x80));    
+    packDataBits(BITPATTERN(B & 0x20));
+    packDataBits(BITPATTERN(B & 0x10));
+    packDataBits(BITPATTERN(B & 0x08));
+    packDataBits(BITPATTERN(B & 0x04));
+    packDataBits(BITPATTERN(B & 0x02));
+    packDataBits(BITPATTERN(B & 0x01));
 }
 
 bool ws2812Busy(void) {
