@@ -64,13 +64,27 @@ enum clockState_e {
     showTime=0,
     setHours,
     setMinutes,    
+    setColor,
 };
+
+
+#define MAXCOLOR 4
+
+enum clockColor_e {
+    
+    colorRed=0,
+    colorGreen,
+    colorBlue,
+    colorWhite,
+};
+
+
 
 
 static bool segmentHourOff;
 static bool segmentMinuteOff;
 static enum clockState_e clockState = showTime;
-
+static enum clockColor_e clockColor = colorRed;
 
 static void 
 buttonDebounce(void *data) {
@@ -117,6 +131,19 @@ buttonCallback0(uint8_t id, enum buttonState_e state, void *data) {
             }    
             break;
         }            
+        case setColor: {
+            
+            if (state == BUTTONPRESSED) {           
+            
+                if (clockColor == 0) {
+                    clockColor = MAXCOLOR-1;
+                } else {
+                    clockColor--;
+                }
+            }                        
+            break;
+        }
+        
         default: {
             break;
         }
@@ -127,6 +154,17 @@ static void
 buttonCallback1(uint8_t id, enum buttonState_e state, void *data) {
 
     switch (clockState) {
+        case showTime: {
+            
+            if (state == BUTTONHELD) {  
+                
+                uint16_t count = buttonGetCount(id);
+                if (BUTTONCOUNTTOMS(count) >= 3000) {
+                    clockState = setColor;
+                }
+            }                
+            break;
+        }        
         case setHours: {
 
             if (state == BUTTONPRESSED) {                           
@@ -144,6 +182,13 @@ buttonCallback1(uint8_t id, enum buttonState_e state, void *data) {
                 if (dt.minute == 60) {
                     dt.minute = 0;
                 }
+            }
+            break;
+        }
+        case setColor: {
+
+            if (state == BUTTONPRESSED) {         
+                clockState = showTime;
             }
             break;
         }
@@ -177,6 +222,18 @@ buttonCallback2(uint8_t id, enum buttonState_e state, void *data) {
             }
             break;
         }
+        case setColor: {
+            
+            if (state == BUTTONPRESSED) {           
+            
+                if (clockColor == MAXCOLOR-1) {
+                    clockColor = 0;
+                } else {
+                    clockColor++;
+                }
+            }                        
+            break;
+        }
         default: {
             break;
         }            
@@ -201,13 +258,13 @@ rttcUpdate(void *data) {
 static void 
 segmentBlink(void *data) {
 
-    if (clockState == setHours) {        
+    if ((clockState == setHours) || (clockState == setColor)) {        
         segmentHourOff ^= 1;        
     } else {
         segmentHourOff = 0;        
     }
 
-    if (clockState == setMinutes) {
+    if ((clockState == setMinutes) || (clockState == setColor)) {
         segmentMinuteOff ^= 1;        
     } else {
         segmentMinuteOff = 0;                
@@ -252,12 +309,26 @@ segmentUpdate(void *data) {
         segmentValues[3] = ml;
     }
     
-
-    segmentsOut(segmentValues, 4, 0xff, 0, 0 );
+    switch (clockColor) {
+        case colorRed:
+            segmentsOut(segmentValues, 4, 0xff, 0, 0 );
+            break;
+        case colorGreen:
+            segmentsOut(segmentValues, 4, 0, 0xff, 0 );
+            break;
+        case colorBlue:
+            segmentsOut(segmentValues, 4, 0, 0, 0xff );
+            break;
+        case colorWhite:
+            segmentsOut(segmentValues, 4, 0xff, 0xff, 0xff );
+            break;
+    }
 }
 
 int main(void)
 {
+    uint8_t clockStartCount = 0;
+    
     SYSTEM_Initialize();
     
     LED0_SetHigh();
@@ -265,11 +336,10 @@ int main(void)
     ws2812Initialize();
     
     ds1302Initialize();
-
-        DELAY_milliseconds(1000);
-
-    if (!ds1302IsRunning()) {
+    
+    while (!ds1302IsRunning()) {
         ds1302Start();
+        DELAY_milliseconds(250);
     } 
     
     schedulerProcessAdd(&buttonDebounceProcess);
