@@ -169,6 +169,8 @@ void ds1302WriteTime(struct dateTime_s *dt)
 	writeByte(DS1302_MIN,HEX2BCD(dt->minute));
 	writeByte(DS1302_SEC,HEX2BCD(dt->second));
 	writeByte(DS1302_DAY,HEX2BCD(dt->day));
+
+
 	writeByte(DS1302_CONTROL,0x80);			// Enable write protection
 
     DELAY_microseconds(1);
@@ -244,19 +246,35 @@ uint8_t ds1302IsRunning(void) {
 }
 
 void ds1302Stop(void) {
+
+	writeByte(DS1302_CONTROL,0x00);			// Disable write protection
+
+    DELAY_microseconds(1);
     
     uint8_t value = readByte(DS1302_REG_CH);
     
     value |= DS1302_CH_BITMASK;
 
     writeByte(DS1302_REG_CH, value);
+
+	writeByte(DS1302_CONTROL,0x80);			// Enable write protection
+
+    DELAY_microseconds(1);
 }
 
 void ds1302Start(void) {
     
+	writeByte(DS1302_CONTROL,0x00);			// Disable write protection
+
+    DELAY_microseconds(1);
+
     uint8_t value = readByte(DS1302_REG_CH);
     
     value &= ~DS1302_CH_BITMASK;
 
     writeByte(DS1302_REG_CH, value);
+
+	writeByte(DS1302_CONTROL,0x80);			// Enable write protection
+
+    DELAY_microseconds(1);
 }
